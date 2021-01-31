@@ -2,26 +2,31 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
+use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ProductTest extends TestCase
 {
-    use WithFaker;
+    use RefreshDatabase;
 
-    public function testUserCreateProduct()
+    public function testProductEmpty()
     {
-        $this->withExceptionHandling();
+        $this->get('/products')
+            ->assertSee('No Products');
+    }
 
-        $user = User::factory()->raw();
+    public function testUserCanSeeProducts()
+    {
+        $product = Product::factory()->create();
 
-        $product = [
-            'title' => $this->faker->sentence,
-            'description' => $this->faker->paragraph,
-            'price' => $this->faker->randomFloat(0, 100)
-        ];
+        $this->get('/products')
+            ->assertSee($product->title);
+    }
+
+    public function testCreateProduct()
+    {
+        $product = Product::factory()->raw();
 
         $this->post('/products', $product);
 
@@ -31,12 +36,9 @@ class ProductTest extends TestCase
             ->assertSee($product['title']);
     }
 
-    public function testUserShowProduct()
+    public function testCreateProductRequiredFields()
     {
-        $product = [
-            'title' => $this->faker->sentence,
-            'description' => $this->faker->paragraph,
-            'price' => $this->faker->randomFloat(0, 100)
-        ];
+        $this->post('/products')
+            ->assertSessionHasErrors(['title', 'description', 'price']);
     }
 }

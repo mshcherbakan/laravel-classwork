@@ -13,16 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/products', function(){
-    $products = \App\Models\Product::all();
-    return view('product.index', compact('products'));
-});
-
-Route::post('/products', function (){
-    $data = request(['title', 'description', 'price']);
-    \App\Models\Product::create($data);
-});
+Route::get('/products', ['App\Http\Controllers\ProductController', 'index'])->name('products');
+Route::get('/products/create', ['App\Http\Controllers\ProductController', 'create']);
+Route::get('/products/{product}', ['App\Http\Controllers\ProductController', 'show']);
+Route::post('/products', ['App\Http\Controllers\ProductController', 'store'])->name('product_store');
