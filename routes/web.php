@@ -13,7 +13,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/products', ['App\Http\Controllers\ProductController', 'index'])->name('products');
+Route::get('/', function () {
+    return view('welcome');
+});
+
+
+//Route::get('/dashboard', function () {
+//    return view('dashboard');
+//})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';
+
+Route::get('/products', ['App\Http\Controllers\ProductController', 'index'])
+    ->middleware(['auth'])
+    ->name('products');
+
 Route::get('/products/create', ['App\Http\Controllers\ProductController', 'create']);
-Route::get('/products/{product}', ['App\Http\Controllers\ProductController', 'show']);
+Route::get('/products/{product}', ['App\Http\Controllers\ProductController', 'show'])->name('product_show');
 Route::post('/products', ['App\Http\Controllers\ProductController', 'store'])->name('product_store');

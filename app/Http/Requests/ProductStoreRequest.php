@@ -14,6 +14,7 @@ class ProductStoreRequest extends FormRequest
      */
     public function authorize()
     {
+        $user = Auth::user();
         return true;
     }
 
@@ -27,7 +28,8 @@ class ProductStoreRequest extends FormRequest
         return [
             'title' => 'required|max:100',
             'description' => 'required',
-            'price' => 'required'
+            'price' => 'required',
+            'category' => 'exists:App\Models\Category,id'
         ];
     }
 }
