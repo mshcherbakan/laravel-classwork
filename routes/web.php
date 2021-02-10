@@ -28,6 +28,6 @@ Route::get('/products', ['App\Http\Controllers\ProductController', 'index'])
     ->middleware(['auth'])
     ->name('products');
 
-Route::get('/products/create', ['App\Http\Controllers\ProductController', 'create']);
+Route::get('/products/create', ['App\Http\Controllers\ProductController', 'create'])->name('product_create');
 Route::get('/products/{product}', ['App\Http\Controllers\ProductController', 'show'])->name('product_show');
 Route::post('/products', ['App\Http\Controllers\ProductController', 'store'])->name('product_store');

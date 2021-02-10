@@ -27,8 +27,8 @@
                             Products
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="">List</a></li>
-                            <li><a class="dropdown-item" href="#">Create</a></li>
+                            <li><a class="dropdown-item" href="{{ route('products') }}">List</a></li>
+                            <li><a class="dropdown-item" href="{{ route('product_create') }}">Create</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="#">Something else here</a></li>
                         </ul>

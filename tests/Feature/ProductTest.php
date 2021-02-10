@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class ProductTest extends TestCase
@@ -40,5 +42,19 @@ class ProductTest extends TestCase
     {
         $this->post('/products')
             ->assertSessionHasErrors(['title', 'description', 'price']);
+    }
+
+    public function testUploadProductImage()
+    {
+        $product = Product::factory()->raw();
+
+        $this->post('/products', $product);
+
+        /** @var UploadedFile $image */
+        $image = $product['img'];
+
+        $imagePath = 'products/' . $image->hashName();
+        Storage::disk('public')
+            ->assertExists($imagePath);
     }
 }

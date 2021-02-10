@@ -14,7 +14,9 @@ class AddColumnCategoryIdToProductsTable extends Migration
     public function up()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->integer('category_id')->after('id');
+            $table->integer('category_id')
+                ->nullable()
+                ->after('id');
         });
     }
 
